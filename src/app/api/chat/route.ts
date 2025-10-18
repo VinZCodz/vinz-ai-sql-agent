@@ -1,3 +1,4 @@
+import { tools } from '@/app/utils/tools';
 import { groq } from '@ai-sdk/groq';
 import { streamText, UIMessage, convertToModelMessages } from 'ai';
 
@@ -10,6 +11,7 @@ export async function POST(req: Request) {
   const result = streamText({
     model: groq('moonshotai/kimi-k2-instruct'),
     messages: convertToModelMessages(messages),
+    tools: tools
   });
 
   return result.toUIMessageStreamResponse();
