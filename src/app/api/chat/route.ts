@@ -12,7 +12,7 @@ type DrizzleDB = LibSQLDatabase<typeof schema>;
 const dbInstance = db as unknown as DrizzleDB;
 const queryExecutor = new DrizzleReadOnlyExecutor(dbInstance);
 
-const allowedSchemas=utils.getSchemas();//TODO: Can be pipelined with db:generate script and pushed to cache
+const allowedSchemas=await utils.getSchemas();//TODO: Can be pipelined with db:generate script
 
 export const maxDuration = 30;// Allow streaming responses up to 30 seconds
 
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
   const result = streamText({
     model: groq('moonshotai/kimi-k2-instruct'),
-    system: `${prompt.SYSTEM_PROMPT} /n/n Allowed Schemas: ${allowedSchemas} /n/n Todays Date: ${new Date()}`,
+    system: `${prompt.SYSTEM_PROMPT} \n\n Allowed Schemas: ${allowedSchemas} \n\n Todays Date: ${new Date()}`,
     messages: convertToModelMessages(messages),
     tools: createTools({ queryExecutor }),
     stopWhen: stepCountIs(5),
