@@ -12,7 +12,7 @@ type DrizzleDB = LibSQLDatabase<typeof schema>;
 const dbInstance = db as unknown as DrizzleDB;
 const queryExecutor = new DrizzleReadOnlyExecutor(dbInstance);
 
-const allowedSchemas=utils.generateSchemaDescription();//TODO: Can be pipelined with db:generate script and pushed to cache
+const allowedSchemas=utils.getSchemas();//TODO: Can be pipelined with db:generate script and pushed to cache
 
 export const maxDuration = 30;// Allow streaming responses up to 30 seconds
 
