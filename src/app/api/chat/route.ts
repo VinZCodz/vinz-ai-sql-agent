@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     system: `${prompt.SYSTEM_PROMPT} \n\n Allowed Schemas: ${allowedSchemas} \n\n Todays Date: ${new Date()}`,
     messages: convertToModelMessages(messages),
     tools: createTools({ queryExecutor }),
-    stopWhen: stepCountIs(5),
+    stopWhen: stepCountIs(7),
   });
 
   return result.toUIMessageStreamResponse();
