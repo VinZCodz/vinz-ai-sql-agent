@@ -67,9 +67,9 @@ export default function Chat() {
         }}
       >
         <input
-          className="fixed dark:bg-gray-900 bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 dark:border-gray-800 rounded-3xl shadow-xl"
+          className="fixed bg-purple-900 bottom-0 w-full max-w-md p-2 mb-8 border border-purple-300 dark:border-purple-800 rounded-3xl shadow-xl"
           value={input}
-          placeholder="Hello! I can help talk to your Database!"
+          placeholder="✨ Hello! Let's talk to your Database!"
           onChange={e => setInput(e.currentTarget.value)}
         />
       </form>
