@@ -3,7 +3,7 @@
 import { useChat } from '@ai-sdk/react';
 import { marked } from 'marked';
 import { useEffect, useRef, useState } from 'react';
-import { useChatMock } from '../../test/mockChat'
+// import { useChatMock } from '../../test/mockChat
 
 export default function Chat() {
   const [input, setInput] = useState('');
@@ -25,7 +25,7 @@ export default function Chat() {
   }, [input]);
 
   // Submission handler (Enter submits, Shift+Enter creates a new line)
-  const handleKeyDown = (e: { key: string; shiftKey: any; preventDefault: () => void; }) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (input.trim()) {
@@ -43,7 +43,7 @@ export default function Chat() {
   return (
     <div className="flex flex-col items-center justify-center mx-auto">
       <div className='fixed top-0 flex flex-col items-center w-full bg-[#1a1a1a] z-20'>
-        <img src="/Query-osity_hex.png" className='max-w-[9rem] p-2'></img>
+        <img src="/Query-osity_hex.png" className='max-w-[9rem] p-2' alt='Vinz Query-osity'></img>
       </div>
 
       <div className="w-full max-w-3xl py-24 pb-32">

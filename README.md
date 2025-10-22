@@ -18,6 +18,10 @@ pnpm db:migrate
 ```
 npx bun run src/db/seed.ts
 ```
+- Build local setup
+```
+pnpm build
+```
 - Finally, run the development server:
 ```
 pnpm dev

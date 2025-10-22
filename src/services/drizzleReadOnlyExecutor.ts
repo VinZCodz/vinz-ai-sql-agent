@@ -1,5 +1,5 @@
 import { LibSQLDatabase } from 'drizzle-orm/libsql';
-import { sql, SQL, DrizzleConfig } from 'drizzle-orm';
+import { sql } from 'drizzle-orm';
 import * as schema from '../db/schema';
 type DrizzleDB = LibSQLDatabase<typeof schema>;
 
