@@ -4,14 +4,13 @@ import { useChat } from '@ai-sdk/react';
 import { marked } from 'marked';
 import { useEffect, useRef, useState } from 'react';
 import { useChatMock } from '../../test/mockChat'
-import Image from "next/image";
 
 export default function Chat() {
   const [input, setInput] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // const { messages, sendMessage } = useChat();
-  const { messages, sendMessage } = useChatMock();
+  const { messages, sendMessage } = useChat();
+  // const { messages, sendMessage } = useChatMock();
 
   // Auto-resizing effect
   useEffect(() => {
@@ -37,12 +36,16 @@ export default function Chat() {
     // If Shift + Enter is pressed, do nothing, allow the default (new line)
   };
 
+  interface ToolInput {
+    query: string;
+    // other properties
+  }
   return (
     <div className="flex flex-col items-center justify-center mx-auto">
       <div className='fixed top-0 flex flex-col items-center w-full bg-[#1a1a1a] z-20'>
         <img src="/Query-osity_hex.png" className='max-w-[9rem] p-2'></img>
       </div>
-      
+
       <div className="w-full max-w-3xl py-24 pb-32">
         {messages.map(message => (
           <div key={message.id} className={`flex w-full mb-4 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -62,14 +65,14 @@ export default function Chat() {
                         <div className="font-semibold text-purple-700 dark:text-purple-300 mb-1">
                           🔎 Database Query:
                         </div>
-                        {part.input?.query && (
+                        {(part.input as ToolInput)?.query && (
                           <pre className="text-xs bg-black dark:bg-white-900 p-2 rounded mb-2 overflow-x-auto">
-                            {part.input.query}
+                            {(part.input as ToolInput).query}
                           </pre>
                         )}
-                        {part.state === 'output-available' && part.output && (
+                        {part.state === 'output-available' && part.output as [] && (
                           <div className="text-sm text-green-700 dark:text-green-300">
-                            ✔️✔️ Returned {part.output?.length || 0} rows
+                            ✔️✔️ Returned {(part.output as []).length || 0} rows
                           </div>
                         )}
                       </div>

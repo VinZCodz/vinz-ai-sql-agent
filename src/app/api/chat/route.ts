@@ -7,12 +7,15 @@ import { db } from '../../../db/client';
 import * as schema from '../../../db/schema';
 import * as prompt from '../../../ai/prompt';
 import * as utils from '../../../ai/utils';
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 type DrizzleDB = LibSQLDatabase<typeof schema>;
 const dbInstance = db as unknown as DrizzleDB;
 const queryExecutor = new DrizzleReadOnlyExecutor(dbInstance);
 
-const allowedSchemas=await utils.getSchemas();//TODO: Can be pipelined with db:generate script
+const allowedSchemas = await utils.getSchemas();//TODO: Can be pipelined with db:generate script
 
 export const maxDuration = 30;// Allow streaming responses up to 30 seconds
 
@@ -20,7 +23,7 @@ export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json();
 
   const result = streamText({
-    model: groq('moonshotai/kimi-k2-instruct'),
+    model: groq(process.env.MODEL!),
     system: `${prompt.SYSTEM_PROMPT} \n\n Allowed Schemas: ${allowedSchemas} \n\n Todays Date: ${new Date()}`,
     messages: convertToModelMessages(messages),
     tools: createTools({ queryExecutor }),
