@@ -38,6 +38,7 @@ export default function Chat() {
 
   interface ToolInput {
     query: string;
+    tableName: string;
     // other properties
   }
   return (
@@ -57,13 +58,43 @@ export default function Chat() {
                     return (
                       <div key={`${message.id}-${i}`} className={`mb-2 ${message.role === 'user' ? 'text-right' : 'text-left'}`} dangerouslySetInnerHTML={{ __html: marked(part.text!) }}></div>
                     );
+                  case 'tool-dbTableNames':
+                    return (
+                      <div
+                        key={`${message.id}-${i}`}
+                        className="max-w-xs my-2 p-3 bg-blue-900/20 rounded border border-blue-800">
+                        <div className="font-semibold text-blue-700 dark:text-blue-300 mb-1">
+                          🚦 Permit:
+                        </div>
+                        {part.state === 'output-available' && part.output as [] && (
+                          <div className="text-sm text-green-700 dark:text-green-300">
+                            ☑️ {(part.output as []).length || 0} Table(s) are Permitted.
+                          </div>
+                        )}
+                      </div>
+                    );
+                  case 'tool-dbTableSchema':
+                    return (
+                      <div
+                        key={`${message.id}-${i}`}
+                        className="max-w-xs my-2 p-3 bg-blue-900/20 rounded border border-blue-800">
+                        <div className="font-semibold text-blue-700 dark:text-blue-300 mb-1">
+                          🚀 Load:
+                        </div>
+                        {part.state === 'output-available' && (part.output as string).length && (
+                          <div className="text-sm text-green-700 dark:text-green-300">
+                            ☑️ {(part.input as ToolInput).tableName} Schema Loaded.
+                          </div>
+                        )}
+                      </div>
+                    );
                   case 'tool-dbQuery':
                     return (
                       <div
                         key={`${message.id}-${i}`}
-                        className="my-2 p-3 bg-purple-900/20 rounded border border-purple-800">
+                        className="max-w-2xl my-2 p-3 bg-purple-900/20 rounded border border-purple-800">
                         <div className="font-semibold text-purple-700 dark:text-purple-300 mb-1">
-                          🔎 Database Query:
+                          🎯 Query:
                         </div>
                         {(part.input as ToolInput)?.query && (
                           <pre className="text-xs bg-black dark:bg-white-900 p-2 rounded mb-2 overflow-x-auto">

@@ -26,7 +26,7 @@ export class DrizzleReadOnlyExecutor {
 
     public async getTableSchema(tableName: string) {
         try {
-            console.log("Getting Table Schema for: ", tableName);
+            console.log("Getting Table Schema for:", tableName);
 
             const rows = await this.db.select({
                 sql: schema.aiPermittedTablesView.sql,
