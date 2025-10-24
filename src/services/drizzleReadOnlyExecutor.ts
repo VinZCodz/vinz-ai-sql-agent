@@ -1,5 +1,5 @@
 import { LibSQLDatabase } from 'drizzle-orm/libsql';
-import { sql } from 'drizzle-orm';
+import { sql, eq } from 'drizzle-orm';
 import * as schema from '../db/schema';
 type DrizzleDB = LibSQLDatabase<typeof schema>;
 
@@ -8,6 +8,40 @@ export class DrizzleReadOnlyExecutor {
 
     constructor(db: DrizzleDB) {
         this.db = db;
+    }
+
+    public async getTableNames() {
+        try {
+            console.log("--Getting Table Names--");
+
+            const rows = await this.db.select({
+                name: schema.aiPermittedTablesView.name,
+            }).from(schema.aiPermittedTablesView);
+
+            return rows.map(row => row.name);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public async getTableSchema(tableName: string) {
+        try {
+            console.log("Getting Table Schema for: ", tableName);
+
+            const rows = await this.db.select({
+                sql: schema.aiPermittedTablesView.sql,
+            })
+                .from(schema.aiPermittedTablesView)
+                .where(eq(schema.aiPermittedTablesView.name, tableName));
+
+            if (rows.length === 0) {
+                return `No schema found for table/view: ${tableName}`;
+            }
+
+            return rows[0].sql;
+        } catch (error) {
+            throw error;
+        }
     }
 
     public async executeReadOnlyQuery(rawQuery: string) {
@@ -25,7 +59,6 @@ export class DrizzleReadOnlyExecutor {
             console.log("Query:", normalizedQuery);
             return await this.db.all(sql.raw(normalizedQuery));
         } catch (error) {
-            // console.error('Error executing raw Drizzle query:', error)
             throw error;
         }
     }
@@ -35,7 +68,8 @@ export class DrizzleReadOnlyExecutor {
 const FORBIDDEN_KEYWORDS = [
     'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'DROP', 'ALTER', 'CREATE',
     'ATTACH', 'DETACH', 'PRAGMA', 'REINDEX', 'VACUUM', 'REPLACE', 'GRANT',
-    'REVOKE', 'BEGIN', 'COMMIT', 'ROLLBACK', 'SAVEPOINT'
+    'REVOKE', 'BEGIN', 'COMMIT', 'ROLLBACK', 'SAVEPOINT',
+    'sqlite_schema', 'sqlite_master', 'ai_permitted_tables_view'
 ].join('|');
 
 const READ_ONLY_REGEX = new RegExp(

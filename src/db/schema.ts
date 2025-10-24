@@ -1,5 +1,5 @@
-import { sql } from 'drizzle-orm';
-import { sqliteTable, text, integer, real } from 'drizzle-orm/sqlite-core';
+import { sql, View } from 'drizzle-orm';
+import { sqliteTable, text, integer, real, sqliteView } from 'drizzle-orm/sqlite-core';
 
 // --- Products Table ---
 
@@ -54,3 +54,38 @@ export const sales = sqliteTable('sales', {
     // Timestamp for when the sale occurred.
     sale_date: text('sale_date').notNull().default(sql`CURRENT_TIMESTAMP`),
 });
+
+// --- AI Permitted Tables View ---
+
+/**
+ * Represents the 'ai_permitted_tables_view' SQLite view.
+ * This view filters entries from 'sqlite_master' to expose only permitted tables and views.
+ * Excludes internal system tables and specific application tables like 'movies' and 'actors'. (part of other multi tenancy, should be different db)
+ * Useful for introspecting allowed schema elements for AI-driven operations.
+ */
+
+export const aiPermittedTablesView = sqliteView(
+    'ai_permitted_tables_view',
+    {
+        type: text('type'),
+        name: text('name'),
+        tbl_name: text('tbl_name'),
+        sql: text('sql'),
+    },
+).as(sql
+    `
+    SELECT type, name, tbl_name, sql
+    FROM sqlite_master
+    WHERE (type = 'table' OR type = 'view')
+      AND sql IS NOT NULL
+      AND tbl_name NOT LIKE '\\__%' ESCAPE '\\'
+      AND tbl_name NOT IN (
+        'sqlite_sequence', 
+        'movies', 
+        'actors'
+        )
+      AND name NOT IN (
+        'ai_permitted_tables_view'
+        )
+    `
+);

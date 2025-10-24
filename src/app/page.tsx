@@ -57,7 +57,7 @@ export default function Chat() {
                     return (
                       <div key={`${message.id}-${i}`} className={`mb-2 ${message.role === 'user' ? 'text-right' : 'text-left'}`} dangerouslySetInnerHTML={{ __html: marked(part.text!) }}></div>
                     );
-                  case 'tool-databaseQuery':
+                  case 'tool-dbQuery':
                     return (
                       <div
                         key={`${message.id}-${i}`}

@@ -2,7 +2,6 @@ import { db } from '../src/db/client';
 import { DrizzleReadOnlyExecutor, SecurityError } from '../src/services/drizzleReadOnlyExecutor';
 import { LibSQLDatabase } from 'drizzle-orm/libsql';
 import * as schema from '../src/db/schema';
-import { getSchemas } from '@/ai/utils';
 
 type DrizzleDB = LibSQLDatabase<typeof schema>;
 const mockDbInstance = db as unknown as DrizzleDB;
