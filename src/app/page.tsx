@@ -1,6 +1,6 @@
 'use client'
 
-import { SignIn, useUser } from '@clerk/nextjs'
+import { SignIn, UserButton, useUser } from '@clerk/nextjs'
 import ChatComponent from "./components/chat"
 
 export default function Home() {
@@ -11,6 +11,14 @@ export default function Home() {
   }
 
   return (
-    <ChatComponent />
+    <div className='min-screen-height'>
+
+      <span className="fixed top-2 right-2 px-4 z-50">
+        <UserButton />
+      </span>
+
+      <ChatComponent />
+      
+    </div>
   );
 }
