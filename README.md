@@ -1,3 +1,31 @@
+# AI SQL Agent:
+
+App users can ask questions in multi-lingual natural language and AI agent will automatically generate and run SQL queries to fetch the data from DB source. Based on the obtained records, the LLM responds with deeper insights in a conversational manner.
+
+## Full Stack AI Agent: 
+- Next.js
+- Vercel’s AI SDK
+- Drizzle ORM
+- SQLite Turso DB
+- Clerk for application Authentication
+- CI/CD and Deployed on Vercel
+- Groq LLM Models
+  
+<img width="1000" height="1200" alt="UI" src="https://github.com/user-attachments/assets/2f3af751-ae3b-43c0-a702-54b2cf76e4fe" />
+
+## Chat features explored:
+- Auto Scroll ref.
+- Auto Resize input text area ref.
+- Clerk Integration for Auth and SSO sign-in and sign-up.
+- Loading Animate
+- SQL Data Governance Security.
+- Code-First ORM strategy for DB Migration.
+- CI/CD Deployment to Vercel.
+  
+<img width="1000" height="1200" alt="Kan-Insights2" src="https://github.com/user-attachments/assets/6a1dada1-264a-4368-9c72-a0153c5e374b" />
+
+# Getting Started:
+
 ## Dependencies
 - Groq Cloud API Key
 - Turso SQLite DB URL and Auth token.
@@ -63,6 +91,8 @@ pnpm dev
 
 ## Begin Chat
 Open [http://localhost:3000](http://localhost:3000) with your browser, to begin the **Vinz Query-osity SQL AI Agent** chat window for your AI powered SQL chat!
+
+<img width="1000" height="1200" alt="LandPage" src="https://github.com/user-attachments/assets/f02ec6ac-0a4d-42a2-baab-30d29594d9e7" />
 
 
 ## Msc
