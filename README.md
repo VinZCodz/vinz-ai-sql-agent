@@ -29,6 +29,7 @@ App users can ask questions in multi-lingual natural language and AI agent will 
 ## Dependencies
 - Groq Cloud API Key
 - Turso SQLite DB URL and Auth token.
+- Clerk Public Key and Token.
 
 ## Getting Started
 - Create ```.env``` file in root (refer ```.env.example``` for keys creation)
@@ -40,7 +41,7 @@ pnpm install
 - [**Optional**] Seeding data via ```seed.ts```(change this file for any new tables) or use the given datasets.
 
 - **NOTE**: The Agent uses aiPermittedTablesView for sensitive DB table masking (views and object can also be added). Please make use of this to hide any db objects from Agent Select queries. 
-- Add your db objects in the below view in ```schema.ts``` accordingly and make sure the view is on your Turso DB.
+- - Add your db objects in the below view in ```schema.ts``` accordingly. This view is **Mandatory** on your Turso DB.
 ```
 export const aiPermittedTablesView = sqliteView(
     'ai_permitted_tables_view',
